@@ -1,0 +1,23 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.5
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "test"
+      MYSQL_USER: "test"
+      MYSQL_PASSWORD: "test"
+      MYSQL_DATABASE: "test"
+    command: mysqld --sql_mode=""
+  backend:
+    image: $IMAGE_DEPLOY
+    ports:
+      - 80:3000    
+    container_name: $PROJECT_NAME
+    volumes:
+      - ./app/:/app
+    environment:
+      VIRTUAL_HOST: $VIRTUAL_HOST
+      LC_ALL: en_US.UTF-8
+    command: npm start 
