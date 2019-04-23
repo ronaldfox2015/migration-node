@@ -4,10 +4,13 @@ ENV APP_DIR=/app
 RUN mkdir $APP_DIR
 
 WORKDIR $APP_DIR
-RUN npm install -g ts-node
-RUN npm install typeorm -g
-
-RUN npm install typeorm --save
+COPY ./app/src ./src
+COPY ./app/ormconfig.json ./
+COPY ./app/package.json ./
+COPY ./app/README.md ./
+COPY ./app/tsconfig.json ./
+RUN npm i express
+RUN npm install
 
 EXPOSE 3000
 
