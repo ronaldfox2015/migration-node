@@ -7,7 +7,7 @@ VERSION         			= v1
 PROVIDER					= ronaldgcr
 DOCKER_NETWORK				?= --network api_console
 ## DEV ##
-TAG_DEV						= 0.1.0
+TAG_DEV						= 1.0.0
 TAG_MYSQL 					= mysql
 MYSQL_USER					?= root
 MYSQL_ROOT_PASSWORD			?= test
