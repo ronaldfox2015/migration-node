@@ -1,7 +1,17 @@
 {
-   "name": "Cli",
+   "name": "migration-node",
    "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
+   "license": "MIT",
+   "author": "Ronald Cutisaca",
+   "description": "ejecutardor de migration",
+   "repository": {
+      "type" : "git",
+      "url" : "https://github.com/Khan/khan-linter.git"
+    },
+   "scripts": {
+      "start": "ts-node src/index.ts",
+      "instal-dev": "npm install && npm i express"
+   },
    "devDependencies": {
       "@types/node": "^8.0.29",
       "ts-node": "^3.3.0",
@@ -11,8 +21,5 @@
       "typeorm": "^0.2.16",
       "reflect-metadata": "^0.1.10",
       "mysql": "^2.14.1"
-   },
-   "scripts": {
-      "start": "ts-node src/index.ts"
    }
 }

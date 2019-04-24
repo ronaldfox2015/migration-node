@@ -43,6 +43,7 @@ build: ## construccion de la imagen: make build
 	docker build -f docker/node/Dockerfile -t $(IMAGE_DEPLOY) docker/node/;
 
 build-image-migration:
+	sudo chmod 777 -R app/*
 	make copy-proyect;
 	make build;
 	make delete-proyect;

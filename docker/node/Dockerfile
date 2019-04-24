@@ -1,17 +1,13 @@
-FROM node
+FROM node:11-alpine
 ENV APP_DIR=/app
-
 RUN mkdir $APP_DIR
-
 WORKDIR $APP_DIR
+RUN npm update -g npm 
 COPY ./app/src ./src
 COPY ./app/ormconfig.json ./
 COPY ./app/package.json ./
 COPY ./app/README.md ./
 COPY ./app/tsconfig.json ./
-RUN npm i express
-RUN npm install
-
+RUN npm install && npm i express
 EXPOSE 3000
-
 EXPOSE 35729
