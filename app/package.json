@@ -6,7 +6,7 @@
    "description": "ejecutardor de migration",
    "repository": {
       "type" : "git",
-      "url" : "https://github.com/Khan/khan-linter.git"
+      "url" : "https://github.com/ronaldfox2015/migration-node.git"
     },
    "scripts": {
       "start": "ts-node src/index.ts",

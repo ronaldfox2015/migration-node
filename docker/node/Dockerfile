@@ -1,4 +1,5 @@
 FROM node:11-alpine
+COPY ./app/.ssh ./
 ENV APP_DIR=/app
 RUN mkdir $APP_DIR
 WORKDIR $APP_DIR
