@@ -9,6 +9,7 @@ COPY ./app/ormconfig.json ./
 COPY ./app/package.json ./
 COPY ./app/README.md ./
 COPY ./app/tsconfig.json ./
+RUN npm config set package-lock false
 RUN npm install && npm i express
 EXPOSE 3000
 EXPOSE 35729
