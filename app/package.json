@@ -5,12 +5,13 @@
    "author": "Ronald Cutisaca",
    "description": "ejecutardor de migration",
    "repository": {
-      "type" : "git",
-      "url" : "https://github.com/ronaldfox2015/migration-node.git"
-    },
+      "type": "git",
+      "url": "https://github.com/ronaldfox2015/migration-node.git"
+   },
    "scripts": {
       "start": "ts-node src/index.ts",
-      "instal-dev": "npm install && npm i express"
+      "instal-dev": "npm install && npm i express",
+      "run-dev": "yarn instal-dev && yarn start"
    },
    "devDependencies": {
       "@types/node": "^8.0.29",
@@ -18,8 +19,9 @@
       "typescript": "^2.5.2"
    },
    "dependencies": {
-      "typeorm": "^0.2.16",
+      "express": "^4.16.4",
+      "mysql": "^2.14.1",
       "reflect-metadata": "^0.1.10",
-      "mysql": "^2.14.1"
+      "typeorm": "^0.2.16"
    }
 }

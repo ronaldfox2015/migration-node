@@ -5,7 +5,8 @@ OWNER 						= api
 SERVICE_NAME 				= node-console
 VERSION         			= v1
 PROVIDER					= ronaldgcr
-DOCKER_NETWORK				?= --network api_console
+NETWORk						= api_console
+DOCKER_NETWORK				?= --network $(NETWORk)
 ## DEV ##
 TAG_DEV						= 1.0.0
 TAG_MYSQL 					= mysql
@@ -35,7 +36,7 @@ IMAGE_DEPLOY			    = $(PROVIDER)/$(PROJECT_NAME):$(TAG_DEV)
 VIRTUAL_HOST				= $(PROJECT_NAME)/$(VERSION)
 
 ## DEFAULT ##
-NETWORD					    ?= orbis-training-$(PROJECT_NAME)
+NETWORD					    = orbis-training-$(PROJECT_NAME)
 PATH_CORE					?= $(PWD)/core
 
 
@@ -44,19 +45,14 @@ build: ## construccion de la imagen: make build
 
 build-image-migration:
 	sudo chmod 777 -R app/*
-	make copy-proyect;
+	cp -R  $(PWD)/app/ $(PWD)/docker/node;
 	make build;
-	make delete-proyect;
+	rm -R $(PWD)/docker/node/app/;
 install: ## install de paquetes
 	make tast EXECUTE="install";
 
 tast: ## installar: make tast EXECUTE=install
 	docker run -it -v "$(PWD)/app:/app" -w "/app" $(IMAGE_DEPLOY) yarn $(EXECUTE)
-up: ## inicialiar mysql y applicacion
-	@IMAGE_DEPLOY=$(IMAGE_DEPLOY) \
-	PROJECT_NAME=$(PROJECT_NAME) \
-	VIRTUAL_HOST=$(VIRTUAL_HOST) \
-	docker-compose up
 
 typeorm: ## installar: make typeorm EXECUTE=init
 	docker run -it -v "$(PWD)/app:/app" -w "/app" $(IMAGE_DEPLOY) typeorm $(EXECUTE)	
@@ -69,23 +65,22 @@ push: ## Subir imagen al dockerhub: make push
 ssh-image: ## inicialiar mysql y applicacion
 	docker run -it -v "$(PWD)/app:/app" -w "/app" $(IMAGE_DEPLOY) bash
 
+up: ## up docker containers: make up
+	echo $(IMAGE_DEPLOY);
+	docker-compose up
+
 mysql: ## construir mysql
 	docker run -p 3306:3306 --name $(TAG_MYSQL) $(DOCKER_NETWORK) -v $(PWD)/docker/mysql/sql:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=$(MYSQL_ROOT_PASSWORD) -e MYSQL_USER=$(MYSQL_USER) -e MYSQL_DATABASE=test -d mysql:5.5;
 
 run: ## ejecuta el migration: make run
 	docker run -it -p 80:3000 --name $(PROJECT_NAME) $(DOCKER_NETWORK) -v "$(PWD)/app:/app" -w "/app"  $(IMAGE_DEPLOY) yarn start
 
-run-console: ## inicialiar mysql y applicacion
-	@IMAGE_DEPLOY=$(IMAGE_DEPLOY) \
-	PROJECT_NAME=$(PROJECT_NAME) \
-	VIRTUAL_HOST=$(VIRTUAL_HOST) \
-	docker exec -it -w "/app/app" $(PROJECT_NAME) bash
-
-copy-proyect:
-	cp -R  $(PWD)/app/ $(PWD)/docker/node
-
-delete-proyect:
-	rm -R $(PWD)/docker/node/app/
+migration: ## inicialiar mysql y applicacion
+	docker run -it --name $(PROJECT_NAME) $(DOCKER_NETWORK) $(IMAGE_DEPLOY) yarn start
+down:## detiene el contenedor: make stop
+	docker-compose down
+attach: ## attach log to console: make attach
+	docker attach --sig-proxy=false $(CONTAINER_NAME)
 help: ## ayuda: make help
 	@printf "\033[31m%-16s %-59s %s\033[0m\n" "Target" "Help" "Usage"; \
 	printf "\033[31m%-16s %-59s %s\033[0m\n" "------" "----" "-----"; \

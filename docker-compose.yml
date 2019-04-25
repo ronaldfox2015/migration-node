@@ -9,15 +9,15 @@ services:
       MYSQL_USER: "test"
       MYSQL_PASSWORD: "test"
       MYSQL_DATABASE: "test"
+    volumes:
+        - ./docker/mysql/sql:/docker-entrypoint-initdb.d
     command: mysqld --sql_mode=""
   backend:
-    image: $IMAGE_DEPLOY
+    image: "ronaldgcr/api-dev-node-console:1.0.0"
     ports:
       - 80:3000    
-    container_name: $PROJECT_NAME
     volumes:
-      - ./app/:/app/app
-    environment:
-      VIRTUAL_HOST: $VIRTUAL_HOST
-      LC_ALL: en_US.UTF-8
-    command: npm start 
+      - ./app/:/app
+    depends_on:
+      - mysql    
+    command: "yarn run-dev"

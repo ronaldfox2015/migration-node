@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import {ConnectionOptions, createConnection} from "typeorm";
-import { Customer } from './entity/customer';
+import { Migrations } from './entity/migrations';
 const ormconfig = require('./config/ormconfig.json');
 
 
@@ -13,7 +13,7 @@ const options: ConnectionOptions = {
     database: ormconfig.database,
     synchronize: ormconfig.synchronize,
     logging: ["query", "error"],
-    entities: [Customer],
+    entities: [Migrations],
 };
 
 createConnection(options).then(async connection => {
